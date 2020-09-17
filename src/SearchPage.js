@@ -2,6 +2,8 @@ import React, { Component } from 'react' ;
 import { Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI'
 import BookGrid from './BookGrid'
+import * as Constants from './Constants'
+import PropTypes from 'prop-types'
 
 class SearchPage extends Component {
   state = {
@@ -17,8 +19,21 @@ class SearchPage extends Component {
 
   handleOnKeyDown = e => {
     if (e.key === 'Enter'){
-      this.searchBooks();
+      if (Constants.SEARCH_TERMS.includes(this.state.value.toLowerCase())) {
+        this.searchBooks();
+      } else {
+        alert("Can't not apply this Search Term")
+      }
     }
+  }
+
+  componentDidMount = () => {
+    this.setState(
+      {
+        value: '',
+        searchedBooks: []
+      }
+    )
   }
 
   searchBooks = () => {
@@ -29,9 +44,7 @@ class SearchPage extends Component {
 
   render() {
     const {
-      moveToCurrReadingList,
-      moveToWanttoReadList,
-      moveToReadList
+      bookOperation
     } = this.props;
 
     return (
@@ -62,15 +75,16 @@ class SearchPage extends Component {
             <BookGrid
               books={this.state.searchedBooks}
               shelfName='searchedBooks'
-              moveToCurrReadingList={moveToCurrReadingList}
-              moveToWanttoReadList={moveToWanttoReadList}
-              moveToReadList={moveToReadList}
-              deleteBookFromList={null}
+              bookOperation={bookOperation}
             />
         </div>
       </div>
     );
   };
 };
+
+SearchPage.propTypes = {
+  bookOperation: PropTypes.func.isRequired 
+}
 
 export default SearchPage;

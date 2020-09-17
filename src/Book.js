@@ -1,47 +1,30 @@
-import React, { Component } from 'react'
+import React from 'react'
 import SelectOpt from './SelectOpt'
 
-class Book extends Component {
-
-  render() {
-    const {
-      book,
-      shelfName,
-      moveToCurrReadingList,
-      moveToWanttoReadList,
-      moveToReadList,
-      deleteBookFromList
-    } = this.props;
-
-    return (
-      <li>
-        <div className="book">
-          <div className="book-top">
-            <div
-              className="book-cover"
-              style={{
-                width: 128,
-                height: 188,
-                backgroundImage: `url(${this.props.book.imageLinks.thumbnail})`
-              }} >
-            </div>
-            <div className="book-shelf-changer">
-              <SelectOpt
-                book={book}
-                shelfName={shelfName}
-                moveToCurrReadingList={moveToCurrReadingList}
-                moveToWanttoReadList={moveToWanttoReadList}
-                moveToReadList={moveToReadList}
-                deleteBookFromList={deleteBookFromList}
-              />
-            </div>
-          </div>
-          <div className="book-title">{this.props.book.title}</div>
-          <div className="book-authors">{this.props.book.authors}</div>
+const Book = (props) =>(
+  <li>
+    <div className="book">
+      <div className="book-top">
+        <div
+          className="book-cover"
+          style={{
+            width: 128,
+            height: 188,
+            backgroundImage: `url(${props.book.imageLinks.thumbnail})`
+          }} >
         </div>
-      </li>
-    )
-  }
-}
+        <div className="book-shelf-changer">
+          <SelectOpt
+            book={props.book}
+            shelfName={props.shelfName}
+            bookOperation={props.bookOperation}
+          />
+        </div>
+      </div>
+      <div className="book-title">{props.book.title}</div>
+      <div className="book-authors">{props.book.authors}</div>
+    </div>
+  </li>
+)
 
 export default Book

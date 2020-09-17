@@ -1,23 +1,14 @@
 import React, { Component } from 'react'
 import BookGrid from './BookGrid'
 import { Link } from 'react-router-dom'
-
-const shelfs = [
-  'Currently Reading',
-  'Want to Read',
-  'Read'
-]
+import * as Constants from './Constants'
+import PropTypes from 'prop-types'
 
 class BookShelf extends Component {
   render() {
     const {
-      currList,
-      wantList,
-      readList,
-      moveToCurrReadingList,
-      moveToWanttoReadList,
-      moveToReadList,
-      deleteBookFromList
+      books,
+      bookOperation
     } = this.props;
 
     return (
@@ -30,36 +21,33 @@ class BookShelf extends Component {
           <div className="bookshelf">
             <h2 className="bookshelf-title">Currently Reading</h2>
             <BookGrid
-              books={currList}
-              shelfName={shelfs[0]}
-              moveToCurrReadingList={moveToCurrReadingList}
-              moveToWanttoReadList={moveToWanttoReadList}
-              moveToReadList={moveToReadList}
-              deleteBookFromList={deleteBookFromList}
+              books={books.filter(book =>
+                book.shelf === 'currentlyReading'
+              )}
+              shelfName={Constants.BOOK_SHELFS[0]}
+              bookOperation={bookOperation}
             />
 
         </div>
         <div className="bookshelf">
             <h2 className="bookshelf-title">Want to Read</h2>
             <BookGrid
-              books={wantList}
-              shelfName={shelfs[1]}
-              moveToCurrReadingList={moveToCurrReadingList}
-              moveToWanttoReadList={moveToWanttoReadList}
-              moveToReadList={moveToReadList}
-              deleteBookFromList={deleteBookFromList}
+              books={books.filter(book =>
+                book.shelf === 'wantToRead'
+              )}
+              shelfName={Constants.BOOK_SHELFS[1]}
+              bookOperation={bookOperation}
             />
 
         </div>
         <div className="bookshelf">
             <h2 className="bookshelf-title">Read</h2>
             <BookGrid
-              books={readList}
-              shelfName={shelfs[2]}
-              moveToCurrReadingList={moveToCurrReadingList}
-              moveToWanttoReadList={moveToWanttoReadList}
-              moveToReadList={moveToReadList}
-              deleteBookFromList={deleteBookFromList}
+              books={books.filter(book =>
+                book.shelf === 'read'
+              )}
+              shelfName={Constants.BOOK_SHELFS[2]}
+              bookOperation={bookOperation}
             />
 
           </div>
@@ -73,6 +61,11 @@ class BookShelf extends Component {
       </div>
     )
   }
+}
+
+BookShelf.propTypes = {
+  books: PropTypes.array.isRequired,
+  bookOperation: PropTypes.func.isRequired
 }
 
 export default BookShelf

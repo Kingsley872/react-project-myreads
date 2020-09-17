@@ -6,7 +6,8 @@ class SelectOpt extends Component {
     e.preventDefault();
     switch (e.target.value) {
       case 'currentlyReading':
-        this.props.moveToCurrReadingList(this.props.book, this.props.shelfName);
+        this.props.moveToCurrReadingList(this.props.book,
+                                         this.props.shelfName);
         break;
       case 'wantToRead':
         this.props.moveToWanttoReadList(this.props.book);
@@ -17,7 +18,10 @@ class SelectOpt extends Component {
       default:
         break;
     }
-    this.props.deleteBookFromList(this.props.book, this.props.shelfName);
+    if(this.props.shelfName !== 'searchedBooks'){
+      this.props.deleteBookFromList(this.props.book,
+                                    this.props.shelfName);
+    }
   }
 
   render() {

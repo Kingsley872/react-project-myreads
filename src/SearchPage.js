@@ -1,11 +1,47 @@
 import React, { Component } from 'react' ;
+import { Link } from 'react-router-dom';
+import * as BooksAPI from './BooksAPI'
+import BookGrid from './BookGrid'
 
 class SearchPage extends Component {
+  state = {
+    value: '',
+    searchedBooks: []
+  }
+
+  handleChange = e => {
+    this.setState (
+      { value: e.target.value }
+    )
+  }
+
+  handleOnKeyDown = e => {
+    if (e.key === 'Enter'){
+      this.searchBooks();
+    }
+  }
+
+  searchBooks = () => {
+    BooksAPI.search(this.state.value).then( searchedBooks => {
+      this.setState ({ searchedBooks });
+    })
+  }
+
   render() {
+    const {
+      moveToCurrReadingList,
+      moveToWanttoReadList,
+      moveToReadList
+    } = this.props;
+
     return (
       <div className="search-books">
         <div className="search-books-bar">
-          <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
+          <Link
+            to="/"
+            className="close-search"
+            >Close
+          </Link>
           <div className="search-books-input-wrapper">
             {/*
               NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -14,12 +50,23 @@ class SearchPage extends Component {
               However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
               you don't find a specific author or title. Every search is limited by search terms.
             */}
-            <input type="text" placeholder="Search by title or author"/>
+            <input
+              type="text"
+              placeholder="Search by title or author"
+              onChange={this.handleChange}
+              onKeyDown={this.handleOnKeyDown} />
 
           </div>
         </div>
         <div className="search-books-results">
-          <ol className="books-grid"></ol>
+            <BookGrid
+              books={this.state.searchedBooks}
+              shelfName='searchedBooks'
+              moveToCurrReadingList={moveToCurrReadingList}
+              moveToWanttoReadList={moveToWanttoReadList}
+              moveToReadList={moveToReadList}
+              deleteBookFromList={null}
+            />
         </div>
       </div>
     );

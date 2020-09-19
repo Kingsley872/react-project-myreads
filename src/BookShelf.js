@@ -18,40 +18,21 @@ class BookShelf extends Component {
         </div>
 
         <div className="list-books-content">
-          <div className="bookshelf">
-            <h2 className="bookshelf-title">Currently Reading</h2>
-            <BookGrid
-              books={books.filter(book =>
-                book.shelf === 'currentlyReading'
-              )}
-              shelfName={Constants.BOOK_SHELFS[0]}
-              bookOperation={bookOperation}
-            />
-
+          {
+            Constants.SHELVES.map( item => (
+              <div className="bookshelf" key={item.shelf} >
+                <h2 className="bookshelf-title">{item.title}</h2>
+                <BookGrid
+                  books={books.filter(book =>
+                    book.shelf === item.shelf
+                  )}
+                  shelfName={item.shelf}
+                  bookOperation={bookOperation} />
+              </div>
+            ))
+          }
         </div>
-        <div className="bookshelf">
-            <h2 className="bookshelf-title">Want to Read</h2>
-            <BookGrid
-              books={books.filter(book =>
-                book.shelf === 'wantToRead'
-              )}
-              shelfName={Constants.BOOK_SHELFS[1]}
-              bookOperation={bookOperation}
-            />
 
-        </div>
-        <div className="bookshelf">
-            <h2 className="bookshelf-title">Read</h2>
-            <BookGrid
-              books={books.filter(book =>
-                book.shelf === 'read'
-              )}
-              shelfName={Constants.BOOK_SHELFS[2]}
-              bookOperation={bookOperation}
-            />
-
-          </div>
-        </div>
           <Link
             to="/search"
             className="open-search"

@@ -7,6 +7,7 @@ const Book = (props) =>(
       <div className="book-top">
         <div
           className="book-cover"
+          key={props.book.id}
           style={{
             width: 128,
             height: 188,
@@ -27,4 +28,4 @@ const Book = (props) =>(
   </li>
 )
 
-export default Book
+export default React.memo(Book);

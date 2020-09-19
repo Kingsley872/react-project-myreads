@@ -1,9 +1,3 @@
-export const BOOK_SHELFS = [
-  'Currently Reading',
-  'Want to Read',
-  'Read'
-]
-
 export const SEARCH_TERMS = ['Android', 'Art', 'Artificial Intelligence',
   'Astronomy', 'Austen', 'Baseball', 'Basketball', 'Bhagat',
   'Biography', 'Brief', 'Business', 'Camus', 'Cervantes',
@@ -19,3 +13,18 @@ export const SEARCH_TERMS = ['Android', 'Art', 'Artificial Intelligence',
   'Science Fiction', 'Shakespeare', 'Singh', 'Swimming', 'Tale',
   'Thrun', 'Time', 'Tolstoy', 'Travel', 'Ultimate', 'Virtual Reality',
   'Web Development', 'iOS'].map(item => item.toLowerCase())
+
+export const SHELVES = [
+  {
+    title: 'Currently Reading',
+    shelf: 'currentlyReading',
+  },
+  {
+    title: 'Want to Read',
+    shelf: 'wantToRead',
+  },
+  {
+    title: 'Read',
+    shelf: 'read',
+  }
+]

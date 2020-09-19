@@ -4,6 +4,7 @@ import * as BooksAPI from './BooksAPI'
 import BookGrid from './BookGrid'
 import * as Constants from './Constants'
 import PropTypes from 'prop-types'
+import { Debounce } from 'react-throttle'
 
 class SearchPage extends Component {
   state = {
@@ -12,28 +13,12 @@ class SearchPage extends Component {
   }
 
   handleChange = e => {
-    this.setState (
-      { value: e.target.value }
-    )
-  }
-
-  handleOnKeyDown = e => {
-    if (e.key === 'Enter'){
-      if (Constants.SEARCH_TERMS.includes(this.state.value.toLowerCase())) {
+    this.setState ({ value: e.target.value })
+    if (Constants.SEARCH_TERMS.includes(this.state.value.toLowerCase())) {
         this.searchBooks();
-      } else {
-        alert("Can't not apply this Search Term")
-      }
+    } else {
+      this.setState(()=> ({ searchedBooks: [] }));
     }
-  }
-
-  componentDidMount = () => {
-    this.setState(
-      {
-        value: '',
-        searchedBooks: []
-      }
-    )
   }
 
   searchBooks = () => {
@@ -63,18 +48,21 @@ class SearchPage extends Component {
               However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
               you don't find a specific author or title. Every search is limited by search terms.
             */}
-            <input
-              type="text"
-              placeholder="Search by title or author"
-              onChange={this.handleChange}
-              onKeyDown={this.handleOnKeyDown} />
+
+            <Debounce time="500" handler="onChange" >
+              <input
+                type="text"
+                placeholder="Search by title or author"
+                onChange={this.handleChange}
+                />
+            </Debounce>
 
           </div>
         </div>
         <div className="search-books-results">
             <BookGrid
               books={this.state.searchedBooks}
-              shelfName='searchedBooks'
+              shelfName='none'
               bookOperation={bookOperation}
             />
         </div>
@@ -84,7 +72,7 @@ class SearchPage extends Component {
 };
 
 SearchPage.propTypes = {
-  bookOperation: PropTypes.func.isRequired 
+  bookOperation: PropTypes.func.isRequired
 }
 
 export default SearchPage;

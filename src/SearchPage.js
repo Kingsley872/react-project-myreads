@@ -2,7 +2,6 @@ import React, { Component } from 'react' ;
 import { Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI'
 import BookGrid from './BookGrid'
-import * as Constants from './Constants'
 import PropTypes from 'prop-types'
 import { Debounce } from 'react-throttle'
 
@@ -14,17 +13,36 @@ class SearchPage extends Component {
 
   handleChange = e => {
     this.setState ({ value: e.target.value })
-    if (Constants.SEARCH_TERMS.includes(this.state.value.toLowerCase())) {
-        this.searchBooks();
+    if(this.state.value !== ''){
+      this.searchBooks();
     } else {
-      this.setState(()=> ({ searchedBooks: [] }));
+      this.setState({ searchedBooks: [] })
     }
   }
 
   searchBooks = () => {
     BooksAPI.search(this.state.value).then( searchedBooks => {
-      this.setState ({ searchedBooks });
+      if(searchedBooks.error !== 'empty query') {
+        this.setState ( this.processResult(searchedBooks) );
+      } else {
+        this.setState ( [] );
+      }
     })
+  }
+
+  // update shelf and filter none shelf
+  processResult = (list) => {
+    const res = list;
+    for(let i = 0; i < res.length; i++) {
+      const existBook = this.props.books.find(book => book.id === res[i].id);
+      if(typeof(existBook) !== 'undefined') {
+        res[i].shelf = existBook.shelf;
+      } else {
+        res[i].shelf = 'none';
+      }
+    };
+
+    this.setState({ searchedBooks: res.filter(book => book.shelf === 'none')})
   }
 
   render() {

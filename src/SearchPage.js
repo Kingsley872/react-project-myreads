@@ -42,7 +42,7 @@ class SearchPage extends Component {
       }
     };
 
-    this.setState({ searchedBooks: res.filter(book => book.shelf === 'none')})
+    this.setState({ searchedBooks: res })
   }
 
   render() {

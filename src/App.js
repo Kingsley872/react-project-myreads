@@ -26,7 +26,9 @@ class BooksApp extends React.Component {
       () => {
         let newBooks = this.state.books;
         let findBook = newBooks.find(book => book.id === targetBook.id);
-        findBook.shelf = desShelf;
+        if(findBook){
+          findBook.shelf = desShelf;
+        }
         this.setState({ books: newBooks});
 
         // BooksAPI.getAll().then(books => {

@@ -24,16 +24,11 @@ class BooksApp extends React.Component {
   moveBook = (targetBook, desShelf) => {
     BooksAPI.update(targetBook, desShelf).then(
       () => {
-        let newBooks = this.state.books;
-        let findBook = newBooks.find(book => book.id === targetBook.id);
-        if(findBook){
-          findBook.shelf = desShelf;
-        }
-        this.setState({ books: newBooks});
-
-        // BooksAPI.getAll().then(books => {
-        //   this.setState(() => ({books}))
-        // })
+        targetBook.shelf = desShelf;
+        this.setState((prevState) => ({
+          // take out all books except the target and add it back to list with new shelf info
+          books: prevState.books.filter((b) => b.title !== targetBook.title).concat([targetBook])
+        }))
       })
   }
 

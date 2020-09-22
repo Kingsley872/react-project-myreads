@@ -1,7 +1,7 @@
 import React from 'react'
 
 const SelectOpt = (props) => (
-  <select defaultValue={props.shelfName} onChange={(e) => {
+  <select defaultValue={props.book.shelf} onChange={(e) => {
       e.preventDefault();
       props.bookOperation(props.book,
                                e.target.value)
@@ -18,7 +18,7 @@ const SelectOpt = (props) => (
     <option value="read">
       Read
     </option>
-    <option value="none">
+    <option value="None">
       None
     </option>
   </select>

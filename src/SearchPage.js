@@ -25,7 +25,7 @@ class SearchPage extends Component {
       if(searchedBooks.error !== 'empty query') {
         this.setState ( this.processResult(searchedBooks) );
       } else {
-        this.setState ( [] );
+        this.setState ({ searchedBooks: [] });
       }
     })
   }
@@ -38,7 +38,7 @@ class SearchPage extends Component {
       if(typeof(existBook) !== 'undefined') {
         res[i].shelf = existBook.shelf;
       } else {
-        res[i].shelf = 'none';
+        res[i].shelf = "None";
       }
     };
 
@@ -80,7 +80,7 @@ class SearchPage extends Component {
         <div className="search-books-results">
             <BookGrid
               books={this.state.searchedBooks}
-              shelfName='none'
+              shelfName='None'
               bookOperation={bookOperation}
             />
         </div>
